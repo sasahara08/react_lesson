@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LoginInput from "./InputField";
-import LoginButton from "./loginBtn";
-import axios from "axios";
+import FormButton from "./FormBtn";
+import { PostRequest } from "../../utils/postComponent";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
@@ -15,38 +15,39 @@ function LoginForm() {
     const handleLogin = async (e) => {
 
         // デフォルト動作をなくす(プリティチェックの表示が出ないようにするため)
-        e.preventDefault()
+        e.preventDefault();
 
-        // csrfトークンを取得
         try {
-            await axios.get("http://localhost:8000/sanctum/csrf-cookie", {
-                // クロスオリジンでの通信を許可 (laravel<--->react)
-                withCredentials: true
-            })
-
             // ログイン情報を送信
-            await axios.post("http://localhost:8000/login", { email, password }, {
-                // クロスオリジンでの通信を許可 (laravel<--->react)
-                withCredentials: true
-            })
-            .then(Response => {
-                // responseにデータエラーメッセージがなければhomeに遷移
-                if(!Response.data.msg){
-                    
-                    navigate('/Home')
-                }else{
-                    setError(Response.data.msg);
-                }
-            })
+            const response = await PostRequest('login', { email, password });
+            console.log(response);
 
-        } catch (error) {
-            setError('エラーが発生しました。');
+            if (response.data.user) {
+                console.log("ログイン成功:", response.data.user);
+                navigate('/');
+            } else if (response.data.msg) {
+                console.log("ログイン失敗:", response.data.msg);
+                setError(response.data.msg);
+            } else if (response.data.errors) {
+                console.log("バリデーションエラー:", response.data.errors.password[0]);
+                setError(response.data.errors.password[0]);
+            } else {
+                console.log("不明なレスポンス:", response.data);
+            }
+
+
+        } catch (err) {
+            if (err.response?.data?.errors) {
+                setError(err.response.data.errors);
+            } else {
+                setError("サーバーエラーが発生しました。");
+            }
         }
     }
 
     return (
         <>
-            <form onSubmit={handleLogin} action="/">
+            <form onSubmit={handleLogin}>
                 <p>{error}</p>
                 <LoginInput type="email" name="email" label="email" placeholder="email"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -54,8 +55,11 @@ function LoginForm() {
                 <LoginInput type="password" name="password" label="password" placeholder="password"
                     value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <LoginButton type="submit" content="login" />
+                <FormButton type="submit" content="login" />
+            </form>
 
+            <form action="/signin" method="get">
+                <FormButton type="submit" content="新規登録" />
             </form>
         </>
     )

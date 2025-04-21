@@ -1,22 +1,30 @@
-import logo from './logo.svg';
+// App.js
 import './App.css';
 import Login from './page/Login';
 import Home from './page/Home';
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import Signin from './page/Signin';
+import RequireAuth from './components/auth/RequireAuth';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
     <div className="App">
-      <AuthProvider>
-        <BrowserRouter>
-        <Login />
+      <BrowserRouter>
+        <AuthProvider>
           <Routes>
-            <Route path="/home" element={<Home />} />
+            {/* 認証不要なルート */}
             <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<Signin />} />
+            {/* 認証が必要なルート */}
+            <Route path="/" element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            } />
           </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </div>
   );
 }

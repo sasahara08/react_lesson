@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { PostRequest } from "../utils/postComponent";
 
 // context生成
 const AuthContext = createContext(undefined);
 
 // provider設定
 export const AuthProvider = ({ children }) => {
-
+    
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,11 +32,19 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     // ログアウト処理
-    const logout = async () => {
-        await axios.post("http://localhost:8000/logout", {}, {
-            withCredentials: true
-        });
-        setUser(null);
+    const logout = async (e) => {
+
+        try {
+            // logoutにpostしてログアウト
+            await PostRequest(logout);
+
+            console.log("ログアウト成功:");
+            setUser(null); // 未ログイン
+            navigate('/login');
+        } catch (err) {
+            console.log("ログアウト失敗:", err);
+        }
+
     };
 
     // AuthContextのProviderにuser情報を代入

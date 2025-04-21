@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function LoginButton({ type, content }) {
+function FormButton({ type, content }) {
 
     return (
     <button type={type}>
@@ -9,4 +9,4 @@ function LoginButton({ type, content }) {
     )
 }
 
-export default LoginButton;
+export default FormButton;

@@ -19,6 +19,10 @@
 
   - フロントエンドのオリジンを設定(環境変数の追記)
     - ``` SANCTUM_STATEFUL_DOMAINS="localhost:port" ```
+
+- 起動
+  - ```php artisan serve
+    ```
 ### ２．フロントエンドセットアップ
 - Reactインストール
   - ```npx create-react-app frontend ```
@@ -33,3 +37,38 @@
     ```
 
 ### ３．reactコード記述
+
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure your settings for cross-origin resource sharing
+    | or "CORS". This determines what cross-origin operations may execute
+    | in web browsers. You are free to adjust these settings as needed.
+    |
+    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    |
+    */
+
+    'paths' => ['api/*', 'login', 'signIn', 'sanctum/csrf-cookie'],
+
+    'allowed_methods' => ['*'],
+
+    'allowed_origins' => ['http://localhost:3000'],
+
+    'allowed_origins_patterns' => [],
+
+    'allowed_headers' => ['*'],
+
+    'exposed_headers' => [],
+
+    'max_age' => 0,
+
+    'supports_credentials' => true,
+
+];
