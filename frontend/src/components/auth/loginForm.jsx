@@ -49,10 +49,10 @@ function LoginForm() {
         <>
             <form onSubmit={handleLogin}>
                 <p>{error}</p>
-                <LoginInput type="email" name="email" label="email" placeholder="email"
+                <InputField type="email" name="email" label="email" placeholder="email"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <LoginInput type="password" name="password" label="password" placeholder="password"
+                <InputField type="password" name="password" label="password" placeholder="password"
                     value={password} onChange={(e) => setPassword(e.target.value)} />
 
                 <FormButton type="submit" content="login" />

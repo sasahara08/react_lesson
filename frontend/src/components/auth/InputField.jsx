@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoginInput({ type, value, name, label, placeholder, onChange }) {
+function InputField({ type, value, name, label, placeholder, onChange }) {
     return (
         <>
             <label htmlFor={label}>{label}</label>

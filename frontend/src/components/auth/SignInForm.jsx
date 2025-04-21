@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import LoginInput from "./InputField";
 import FormButton from "./FormBtn";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { PostRequest } from "../../utils/postComponent";
 
 function SignInForm() {
@@ -43,16 +41,16 @@ function SignInForm() {
                     ? Object.values(msg).flat().map((m, index) => <p key={index}>{m}</p>)
                     : <p>{msg}</p>}
 
-                <LoginInput type="userName" name="userName" label="userName" placeholder="userName"
+                <InputField type="userName" name="userName" label="userName" placeholder="userName"
                     value={userName} onChange={(e) => setUserName(e.target.value)} />
 
-                <LoginInput type="email" name="email" label="email" placeholder="email"
+                <InputField type="email" name="email" label="email" placeholder="email"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <LoginInput type="password" name="password" label="password" placeholder="password"
+                <InputField type="password" name="password" label="password" placeholder="password"
                     value={password} onChange={(e) => setPassword(e.target.value)} />
 
-                <LoginInput type="password" name="confirmPassword" label="confirmPassword" placeholder="confirmPassword"
+                <InputField type="password" name="confirmPassword" label="confirmPassword" placeholder="confirmPassword"
                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
                 <FormButton type="submit" content="登録完了" />
